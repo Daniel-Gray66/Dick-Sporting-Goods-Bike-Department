@@ -15,8 +15,7 @@ using namespace std;
 void displayInventory(const std::vector<Bike>& inventory);
 void handlePurchase(const std::string& username, std::vector<Bike>& inventory);
 void handlePickup(const std::string& username);
-void handleBikeAssembly(const std::string& username);
-void handleBikeService(const std::string& username);
+void handleBikeDropOff(const std::string& username);
 std::vector<Bike> loadInventory(const std::string& filename);
 string getCurrentDate(); 
 string generateSerialNumber();
@@ -130,7 +129,7 @@ string loginMenu() {
     return username;
 }
 
-std::vector<Bike> loadInventory(const std::string& filename) {
+vector<Bike> loadInventory(const string& filename) {
     std::ifstream file(filename);
     std::vector<Bike> inventory;
 
@@ -198,15 +197,15 @@ void displayMainMenu() {
 }
 
 void handlePurchase(const std::string& username, std::vector<Bike>& inventory) {
-    std::cout << "\n=== Available Bikes ===\n";
+    cout << "\n=== Available Bikes ===\n";
     displayInventory(inventory);
     
-    std::cout << "\nEnter the bike number you wish to purchase (0 to cancel): ";
+    cout << "\nEnter the bike number you wish to purchase (0 to cancel): ";
     int choice;
-    std::cin >> choice;
+    cin >> choice;
     
     if (choice == 0) {
-        std::cout << "Purchase cancelled.\n";
+        cout << "Purchase cancelled.\n";
         return;
     }
     
@@ -358,14 +357,32 @@ void handlePickup(const string& username) {
     cout << "Thank you for choosing our service!\n";
 }
 
-
-
-void handleBikeAssembly(const string& username) {
-    cout << "\n=== Bike Assembly Service ===\n";
-    cout << "Assembly fee: $49.99\n";
+void handleBikeDropOff(const string& username) {
+    cout << "\n=== Bike Drop-off Service ===\n";
+    cout << "1. Bike Assembly ($49.99)\n";
+    cout << "2. Basic Tune-Up ($29.99)\n";
+    cout << "Enter your choice (1-2): ";
     
-    cout << "Please provide bike details:\n";
+    int choice;
+    cin >> choice;
+    
+    // Service type and cost
+    string serviceType;
+    double serviceCost;
+    if (choice == 1) {
+        serviceType = "Assembly";
+        serviceCost = 49.99;
+    } else if (choice == 2) {
+        serviceType = "Basic Tune-Up";
+        serviceCost = 29.99;
+    } else {
+        cout << "Invalid choice. Operation cancelled.\n";
+        return;
+    }
+    
+    // Get bike details
     string make, model;
+    cout << "\nPlease provide bike details:\n";
     cout << "Make: ";
     cin.ignore();
     getline(cin, make);
@@ -375,54 +392,39 @@ void handleBikeAssembly(const string& username) {
     // Generate unique serial number
     string serialNumber = generateSerialNumber();
     
-    // Save assembly order to main tracking file
-    ofstream orderFile("assembly_orders.txt", ios::app);
-    orderFile << username << "," << make << "," << model << "," << serialNumber << "\n";
+    // Save order to tracking file
+    string filename = (serviceType == "Assembly") ? "assembly_orders.txt" : "service_orders.txt";
+    ofstream orderFile(filename, ios::app);
+    orderFile << username << "," << make << "," << model << "," << serialNumber << "," << serviceType << "\n";
     orderFile.close();
     
-    // Save confirmation to customer's receipt file
-    string receiptFileName = "receipts/" + username + "_" + serialNumber + ".txt";
+    // Save receipt
+    string receiptFileName = "receipts/" + username + "_" + serialNumber + "_" + serviceType + ".txt";
     ofstream receiptFile(receiptFileName);
-    receiptFile << "=== BIKE ASSEMBLY ORDER CONFIRMATION ===\n\n"
+    receiptFile << "=== BIKE " << serviceType << " ORDER CONFIRMATION ===\n\n"
                 << "Customer: " << username << "\n"
                 << "Date: " << getCurrentDate() << "\n\n"
                 << "BIKE DETAILS:\n"
                 << "Make: " << make << "\n"
                 << "Model: " << model << "\n"
                 << "Serial Number: " << serialNumber << "\n\n"
+                << "Service Type: " << serviceType << "\n"
+                << "Service Cost: $" << fixed << setprecision(2) << serviceCost << "\n"
                 << "IMPORTANT: Please save this serial number for pickup!\n"
-                << "Estimated completion time: 2-3 business days\n"
-                << "Assembly fee: $49.99\n";
+                << "Estimated completion time: 2-3 business days\n";
     receiptFile.close();
     
-    cout << "\nBike has been registered for assembly.\n";
+    // Display confirmation
+    cout << "\nBike has been registered for " << serviceType << ".\n";
     cout << "Bike Details:\n";
     cout << "Customer: " << username << "\n";
     cout << "Make: " << make << "\n";
     cout << "Model: " << model << "\n";
     cout << "Serial Number: " << serialNumber << "\n";
+    cout << "Service Type: " << serviceType << "\n";
+    cout << "Service Cost: $" << serviceCost << "\n";
     cout << "A receipt has been saved to: " << receiptFileName << "\n";
     cout << "Estimated completion time: 2-3 business days\n";
-}
-
-void handleBikeService(const string& username) {
-    cout << "\n=== Bike Service and Maintenance ===\n";
-    cout << "Service Options:\n";
-    cout << "1. Basic Tune-Up ($29.99)\n";
-    cout << "2. Full Service ($79.99)\n";
-    cout << "3. Repair Estimate\n";
-    
-    int choice;
-    cout << "Select service type: ";
-    cin >> choice;
-    
-    // Here you would typically:
-    // 1. Create service ticket
-    // 2. Record bike details
-    // 3. Schedule service
-    
-    cout << "\nService request has been registered.\n";
-    cout << "We will contact you with more details.\n";
 }
 
 void displayInventory(const std::vector<Bike>& inventory) {
@@ -474,19 +476,19 @@ int main() {
                 break;
                 
             case 3:
-                handleBikeAssembly(username);
+                handleBikeDropOff(username);
                 break;
                 
             case 4:
-                handleBikeService(username);
+                handleBikeDropOff(username);
                 break;
                 
             case 5:
-                std::cout << "Thank you for visiting! Goodbye!\n";
+                cout << "Thank you for visiting! Goodbye!\n";
                 return 0;
                 
             default:
-                std::cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again.\n";
         }
     }
     

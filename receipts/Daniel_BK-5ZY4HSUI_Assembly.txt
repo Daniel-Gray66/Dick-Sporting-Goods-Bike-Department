@@ -1,0 +1,14 @@
+=== BIKE Assembly ORDER CONFIRMATION ===
+
+Customer: Daniel
+Date: Mon Nov 18 13:57:05 2024
+
+BIKE DETAILS:
+Make: Nishiki
+Model: avalanche
+Serial Number: BK-5ZY4HSUI
+
+Service Type: Assembly
+Service Cost: $49.99
+IMPORTANT: Please save this serial number for pickup!
+Estimated completion time: 2-3 business days
