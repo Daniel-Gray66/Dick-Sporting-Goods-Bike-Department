@@ -1,0 +1,51 @@
+Trek,Domane SL 5,2999.99,NA,NA
+Giant,Defy-3,1299.99,NA,NA
+Specialized,Rockhopper,799.99,NA,NA
+Cannondale,Synapse,1499.99,NA,NA
+BMX,Freestyle,399.99,NA,NA
+Schwinn,Axum,548.99,NA,NA
+Trek,Marlin 7,999.99,NA,NA
+Giant,Talon 2,749.99,NA,NA
+Specialized,Sirrus X,899.99,NA,NA
+Cannondale,Trail 5,849.99,NA,NA
+Santa Cruz,Hightower,4299.99,NA,NA
+Trek,FX 2,649.99,NA,NA
+Specialized,Stumpjumper,3299.99,NA,NA
+Giant,Revolt 2,1199.99,NA,NA
+Cannondale,Quick 4,799.99,NA,NA
+Trek,Fuel EX 8,4599.99,NA,NA
+Giant,TCR Advanced,2799.99,NA,NA
+Specialized,Diverge E5,1299.99,NA,NA
+Cannondale,CAAD13,2199.99,NA,NA
+BMX,Street Pro,599.99,NA,NA
+Schwinn,Collegiate,449.99,NA,NA
+Trek,Checkpoint ALR 5,2399.99,NA,NA
+Giant,Stance 2,1899.99,NA,NA
+Specialized,Allez Sport,1099.99,NA,NA
+Cannondale,Topstone,1799.99,NA,NA
+Santa Cruz,Bronson,5499.99,NA,NA
+Trek,Roscoe 7,1599.99,NA,NA
+Specialized,Enduro,6299.99,NA,NA
+Giant,Trance X,3499.99,NA,NA
+Cannondale,Habit 5,2899.99,NA,NA
+Mongoose,Legion L60,329.99,NA,NA
+GT,Aggressor Pro,499.99,NA,NA
+Marin,San Quentin 2,1399.99,NA,NA
+Norco,Fluid FS 3,2199.99,NA,NA
+Yeti,SB130,7299.99,NA,NA
+Orbea,Occam M30,3999.99,NA,NA
+Evil,The Following,5899.99,NA,NA
+Pivot,Switchblade,6799.99,NA,NA
+Ibis,Ripmo AF,3999.99,NA,NA
+Canyon,Spectral,3499.99,NA,NA
+Salsa,Timberjack,1599.99,NA,NA
+Surly,Bridge Club,1349.99,NA,NA
+Diamondback,Release 3,2799.99,NA,NA
+Trek,Slash 8,4199.99,NA,NA
+Giant,Reign 2,2899.99,NA,NA
+Specialized,Epic EVO,4599.99,NA,NA
+BMX,Kink Whip,459.99,NA,NA
+Marin,Rift Zone 2,2399.99,NA,NA
+Transition,Scout,3299.99,NA,NA
+Rocky Mountain,Altitude,4799.99,NA,NA
+

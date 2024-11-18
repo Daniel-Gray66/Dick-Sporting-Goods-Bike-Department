@@ -1,0 +1,13 @@
+=== BIKE ASSEMBLY ORDER CONFIRMATION ===
+
+Customer: Merlin
+Date: Mon Nov 18 09:41:54 2024
+
+BIKE DETAILS:
+Make: Nishiki
+Model: Pueblo
+Serial Number: BK-5ZY4HSUI
+
+IMPORTANT: Please save this serial number for pickup!
+Estimated completion time: 2-3 business days
+Assembly fee: $49.99
