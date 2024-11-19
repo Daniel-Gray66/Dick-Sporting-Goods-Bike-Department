@@ -47,5 +47,3 @@ Specialized,Epic EVO,4599.99,NA,NA
 BMX,Kink Whip,459.99,NA,NA
 Marin,Rift Zone 2,2399.99,NA,NA
 Transition,Scout,3299.99,NA,NA
-Rocky Mountain,Altitude,4799.99,NA,NA
-

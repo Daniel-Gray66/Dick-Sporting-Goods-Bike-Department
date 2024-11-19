@@ -1,0 +1,14 @@
+=== BIKE Basic Tune-Up ORDER CONFIRMATION ===
+
+Customer: Daniel
+Date: Tue Nov 19 13:06:12 2024
+
+BIKE DETAILS:
+Make: Merlin
+Model: gvray
+Serial Number: BK-OK41RCFJ
+
+Service Type: Basic Tune-Up
+Service Cost: $29.99
+IMPORTANT: Please save this serial number for pickup!
+Estimated completion time: 2-3 business days

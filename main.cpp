@@ -63,10 +63,10 @@ string loginMenu() {
     bool loginSuccessful = false;
     
     while (!loginSuccessful) {
-        std::cout << "\n=== Welcome ===\n";
-        std::cout << "1. Login\n";
-        std::cout << "2. Create Account\n";
-        std::cout << "Enter your choice: ";
+        cout << "\n=== Welcome ===\n";
+        cout << "1. Login\n";
+        cout << "2. Create Account\n";
+        cout << "Enter your choice: ";
         
         int choice;
         cin >> choice;
@@ -88,7 +88,7 @@ string loginMenu() {
                 }
                 break;
             }
-            case 2: {
+            case 2: {   
                 bool validUsername = false;
                 cin.ignore();
                 while (!validUsername) {
@@ -177,17 +177,12 @@ vector<Bike> loadInventory(const string& filename) {
         inventory.push_back(bike);
     }
 
-    cout << "Just before returning inventory" << endl;
-    for (const auto& bike : inventory) {
-        cout << bike.toString() << endl;
-    }  
-
-    cout << "Inventory loaded successfully.\n";
+  
     return inventory;
 }
 
 void displayMainMenu() {
-    std::cout << "\n=== Dick's Sporting Goods Bike Department ===\n"
+    cout << "\n=== Dick's Sporting Goods Bike Department ===\n"
               << "1. Purchase a Bike\n"
               << "2. Pick Up Bike\n"
               << "3. Drop Off Bike for Assembly\n"
@@ -251,39 +246,47 @@ void handlePurchase(const std::string& username, std::vector<Bike>& inventory) {
 void handlePickup(const string& username) {
     cout << "\n=== Bike Pickup ===\n";
     
-    // Read from assembly orders file
-    ifstream orderFile("assembly_orders.txt");
+    // Read from both assembly and service orders files
     vector<string> allOrders;
     bool foundOrder = false;
-    string line;
     vector<string> userOrders;
     
-    cout << "Orders for " << username << ":\n";
-    while (getline(orderFile, line)) {
-        // Parse the comma-separated line (username,make,model,serial)
-        size_t pos = line.find(",");
-        string orderUsername = line.substr(0, pos);
+    // Helper function to read orders from a file
+    auto readOrdersFile = [&](const string& filename) {
+        ifstream orderFile(filename);
+        string line;
         
-        if (orderUsername == username) {
-            foundOrder = true;
-            string bikeDetails = line;
-            userOrders.push_back(bikeDetails);
+        while (getline(orderFile, line)) {
+            size_t pos = line.find(",");
+            string orderUsername = line.substr(0, pos);
             
-            // Parse and display bike details
-            string remainingDetails = line.substr(pos + 1);
-            pos = remainingDetails.find(",");
-            string make = remainingDetails.substr(0, pos);
-            remainingDetails = remainingDetails.substr(pos + 1);
-            pos = remainingDetails.find(",");
-            string model = remainingDetails.substr(0, pos);
-            string serial = remainingDetails.substr(pos + 1);
-            
-            cout << userOrders.size() << ". " << make << " " << model << "\n";
-            cout << "   Serial: " << serial << "\n";
+            if (orderUsername == username) {
+                foundOrder = true;
+                userOrders.push_back(line);
+                
+                // Parse and display bike details
+                string remainingDetails = line.substr(pos + 1);
+                pos = remainingDetails.find(",");
+                string make = remainingDetails.substr(0, pos);
+                remainingDetails = remainingDetails.substr(pos + 1);
+                pos = remainingDetails.find(",");
+                string model = remainingDetails.substr(0, pos);
+                remainingDetails = remainingDetails.substr(pos + 1);
+                pos = remainingDetails.find(",");
+                string serial = remainingDetails.substr(0, pos);
+                string serviceType = remainingDetails.substr(pos + 1);
+                
+                cout << userOrders.size() << ". " << make << " " << model << " (" << serviceType << ")\n";
+                cout << "   Serial: " << serial << "\n";
+            }
+            allOrders.push_back(line);
         }
-        allOrders.push_back(line);
-    }
-    orderFile.close();
+        orderFile.close();
+    };
+
+    cout << "Orders for " << username << ":\n";
+    readOrdersFile("assembly_orders.txt");
+    readOrdersFile("service_orders.txt");
 
     if (!foundOrder) {
         cout << "No bikes currently available for pickup.\n";
@@ -311,13 +314,22 @@ void handlePickup(const string& username) {
         return;
     }
 
-
-    // Write remaining orders back to file
-    ofstream outFile("Pickup.txt");
+    // Update both files to remove the picked-up order
+    ofstream assemblyFile("assembly_orders.txt");
+    ofstream serviceFile("service_orders.txt");
+    
     for (const string& order : allOrders) {
-        outFile << order << "\n";
+        if (order != selectedOrder) {
+            if (order.find("Assembly") != string::npos) {
+                assemblyFile << order << "\n";
+            } else {
+                serviceFile << order << "\n";
+            }
+        }
     }
-    outFile.close();
+    
+    assemblyFile.close();
+    serviceFile.close();
 
     // Parse and confirm pickup details
     size_t pos = selectedOrder.find(",");
@@ -457,6 +469,8 @@ int main() {
         filesystem::create_directory("receipts");
     }
     
+    srand(time(0));  // Seed random number generator
+    
     string username = loginMenu();
     vector<Bike> inventory = loadInventory("Inventory.txt");
     
@@ -468,10 +482,12 @@ int main() {
         
         switch (choice) {
             case 1:
+            //works
                 handlePurchase(username, inventory);
                 break;
                 
             case 2:
+            //
                 handlePickup(username);
                 break;
                 

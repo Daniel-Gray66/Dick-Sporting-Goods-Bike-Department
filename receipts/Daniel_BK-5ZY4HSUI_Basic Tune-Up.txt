@@ -1,0 +1,14 @@
+=== BIKE Basic Tune-Up ORDER CONFIRMATION ===
+
+Customer: Daniel
+Date: Tue Nov 19 12:41:08 2024
+
+BIKE DETAILS:
+Make: Lamburguiiiniii 
+Model: Hurican
+Serial Number: BK-5ZY4HSUI
+
+Service Type: Basic Tune-Up
+Service Cost: $29.99
+IMPORTANT: Please save this serial number for pickup!
+Estimated completion time: 2-3 business days

@@ -1,12 +1,12 @@
 === BIKE Assembly ORDER CONFIRMATION ===
 
-Customer: Daniel
-Date: Tue Nov 19 12:36:06 2024
+Customer: Merlin
+Date: Tue Nov 19 12:50:51 2024
 
 BIKE DETAILS:
-Make: Merlin's 
-Model: dad
-Serial Number: BK-5ZY4HSUI
+Make: P
+Model: Diddy
+Serial Number: BK-5BI6FSMI
 
 Service Type: Assembly
 Service Cost: $49.99

@@ -1,12 +1,12 @@
 === BIKE Assembly ORDER CONFIRMATION ===
 
-Customer: Daniel
-Date: Tue Nov 19 12:36:06 2024
+Customer: Merlin
+Date: Tue Nov 19 12:51:42 2024
 
 BIKE DETAILS:
-Make: Merlin's 
-Model: dad
-Serial Number: BK-5ZY4HSUI
+Make: merlin
+Model: gray
+Serial Number: BK-5O8BUBS0
 
 Service Type: Assembly
 Service Cost: $49.99
