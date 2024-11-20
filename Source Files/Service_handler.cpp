@@ -8,6 +8,8 @@
 #include "Bike.hpp"
 #include "Utilities.hpp"
 #include <filesystem>
+#include <ctime>
+#include <cstring>
 
 using namespace std;
 
@@ -19,7 +21,8 @@ void handlePurchase(const std::string& username, std::vector<Bike>& inventory, M
     cout << "\nEnter the bike number you wish to purchase (0 to cancel): ";
     int choice;
     cin >> choice;
-    
+
+    // If the user chooses 0, the purchase is cancelled
     if (choice == 0) {
         cout << "Purchase cancelled.\n";
         return;
@@ -31,8 +34,8 @@ void handlePurchase(const std::string& username, std::vector<Bike>& inventory, M
         
         // Calculate total with tax (assuming 8% sales tax)
         double subtotal = selectedBike.getPrice();
-        double tax = subtotal * 0.08;
-        double total = subtotal + tax;
+        double tax = subtotal * 0.1;
+        double total = subtotal + tax;  
         
         cout << "Subtotal: $" << fixed << setprecision(2) << subtotal << endl;
         cout << "Tax (8%): $" << tax << endl;
@@ -46,32 +49,13 @@ void handlePurchase(const std::string& username, std::vector<Bike>& inventory, M
             string serialNumber = to_string(time(0));
             string serviceType = "PURCHASE";
             
-            // Print current directory and attempted file path
-            cout << "Debug - Current Directory: " << std::filesystem::current_path().string() << "\n";
-            
-            // Try the exact same path as your working service receipts
-            string receiptFileName = "text_files/receipts/" + username + "_" + serialNumber + "_" + serviceType + ".txt";
-            cout << "Debug - Attempting to create file at: " << receiptFileName << "\n";
-            
-            ofstream receiptFile(receiptFileName);
-            receiptFile << "=== BIKE PURCHASE RECEIPT ===\n\n"
-                       << "Customer: " << username << "\n"
-                       << "Date: " << getCurrentDate() << "\n\n"
-                       << "BIKE DETAILS:\n"
-                       << "Make: " << selectedBike.getMake() << "\n"
-                       << "Model: " << selectedBike.getModel() << "\n"
-                       << "Serial Number: " << serialNumber << "\n\n"
-                       << "PAYMENT DETAILS:\n"
-                       << "Subtotal: $" << fixed << setprecision(2) << subtotal << "\n"
-                       << "Tax (8%): $" << tax << "\n"
-                       << "Total: $" << total << "\n\n"
-                       << "IMPORTANT: Please save this receipt for your records!\n";
-            receiptFile.close();
+            // Replace the receipt writing code with a call to printReceipt
+            printReceipt(username, serialNumber, serviceType, 
+                        selectedBike.getMake(), selectedBike.getModel(), 
+                        total);  // passing total instead of serviceCost
 
             // Remove bike from inventory vector
             inventory.erase(inventory.begin() + choice - 1);
-            
-        
 
             // Update inventory.txt file
             ofstream outFile("text_files/inventory.txt");
@@ -131,20 +115,7 @@ void handleBikeDropOff(const string& username) {
     orderFile.close();
     
     // Save receipt
-    string receiptFileName = "receipts/" + username + "_" + serialNumber + "_" + serviceType + ".txt";
-    ofstream receiptFile(receiptFileName);
-    receiptFile << "=== BIKE " << serviceType << " ORDER CONFIRMATION ===\n\n"
-                << "Customer: " << username << "\n"
-                << "Date: " << getCurrentDate() << "\n\n"
-                << "BIKE DETAILS:\n"
-                << "Make: " << make << "\n"
-                << "Model: " << model << "\n"
-                << "Serial Number: " << serialNumber << "\n\n"
-                << "Service Type: " << serviceType << "\n"
-                << "Service Cost: $" << fixed << setprecision(2) << serviceCost << "\n"
-                << "IMPORTANT: Please save this serial number for pickup!\n"
-                << "Estimated completion time: 2-3 business days\n";
-    receiptFile.close();
+    printReceipt(username, serialNumber, serviceType, make, model, serviceCost);
     
     // Display confirmation
     cout << "\nBike has been registered for " << serviceType << ".\n";
@@ -155,7 +126,7 @@ void handleBikeDropOff(const string& username) {
     cout << "Serial Number: " << serialNumber << "\n";
     cout << "Service Type: " << serviceType << "\n";
     cout << "Service Cost: $" << serviceCost << "\n";
-    cout << "A receipt has been saved to: " << receiptFileName << "\n";
+    cout << "A receipt has been saved to: text_files/receipts/" << username << "_" << serialNumber << "_" << serviceType << ".txt\n";
     cout << "Estimated completion time: 2-3 business days\n";
 }
 
@@ -193,7 +164,7 @@ void handlePickup(const string& username) {
                 string serviceType = remainingDetails.substr(pos + 1);
                 
                 cout << userOrders.size() << ". " << make << " " << model << " (" << serviceType << ")\n";
-                cout << "   Serial: " << serial << "\n";
+                cout << " Serial: " << serial << "\n";
             }
             allOrders.push_back(line);
         }
@@ -264,23 +235,64 @@ void handlePickup(const string& username) {
     cout << "Thank you for choosing our service!\n";
 
     // After successful pickup, save pickup confirmation
-    string pickupFileName = "receipts/" + username + "_" + serial + "_pickup.txt";
-    ofstream pickupFile(pickupFileName);
-    pickupFile << "=== BIKE PICKUP CONFIRMATION ===\n\n"
-               << "Customer: " << username << "\n"
-               << "Date: " << getCurrentDate() << "\n\n"
-               << "BIKE DETAILS:\n"
-               << "Make: " << make << "\n"
-               << "Model: " << model << "\n"
-               << "Serial: " << serial << "\n\n"
-               << "Pickup completed successfully.\n"
-               << "Thank you for choosing our service!\n";
-    pickupFile.close();
-
+    printReceipt(username, serial, "PICKUP", make, model);
+    
     cout << "\nPickup confirmed for:\n";
     cout << "Make: " << make << "\n";
     cout << "Model: " << model << "\n";
     cout << "Serial: " << serial << "\n";
-    cout << "A pickup receipt has been saved to: " << pickupFileName << "\n";
+    cout << "A pickup receipt has been saved to: receipts/" << username << "_" << serial << "_PICKUP.txt\n";
     cout << "Thank you for choosing our service!\n";
+}
+
+void printReceipt(const std::string& username, const std::string& serialNumber, const std::string& serviceType, 
+                  const std::string& make, const std::string& model, double serviceCost) {
+    try {
+        // Debug current permissions and directory status
+        cout << "Debug - Attempting to create directory\n";
+        if (!std::filesystem::exists("receipts")) {
+            bool created = std::filesystem::create_directory("receipts");
+            cout << "Debug - Directory creation " << (created ? "successful" : "failed") << "\n";
+        } else {
+            cout << "Debug - Receipts directory already exists\n";
+        }
+
+        string receiptFileName = "receipts/" + username + "_" + serialNumber + "_" + serviceType + ".txt";
+        cout << "Debug - Full path: " << std::filesystem::absolute(receiptFileName).string() << "\n";
+        
+        ofstream receiptFile(receiptFileName);
+        if (!receiptFile.is_open()) {
+            cout << "Debug - Failed to open file. Error: " << strerror(errno) << "\n";
+            return;
+        }
+        
+        receiptFile << "=== BIKE " << serviceType << " ORDER CONFIRMATION ===\n\n"
+                   << "Customer: " << username << "\n"
+                   << "Date: " << getCurrentDate() << "\n\n";
+        
+        if (!make.empty() && !model.empty()) {
+            receiptFile << "BIKE DETAILS:\n"
+                       << "Make: " << make << "\n"
+                       << "Model: " << model << "\n"
+                       << "Serial Number: " << serialNumber << "\n\n";
+        }
+        
+        if (serviceCost > 0) {
+            receiptFile << "Service Type: " << serviceType << "\n"
+                       << "Service Cost: $" << fixed << setprecision(2) << serviceCost << "\n"
+                       << "IMPORTANT: Please save this serial number for pickup!\n"
+                       << "Estimated completion time: 2-3 business days\n";
+        }
+        
+        if (serviceType == "PICKUP") {
+            receiptFile << "Pickup completed successfully.\n";
+        }
+        
+        receiptFile << "Thank you for choosing our service!\n";
+        receiptFile.close();
+    } catch (const std::filesystem::filesystem_error& e) {
+        cout << "Filesystem error: " << e.what() << "\n";
+    } catch (const std::exception& e) {
+        cout << "General error: " << e.what() << "\n";
+    }
 }

@@ -12,6 +12,7 @@ class Menu {
 public:
     void displayMainMenu();
     void displayInventory(const vector<Bike>& inventory);
+    
 };
 
 #endif

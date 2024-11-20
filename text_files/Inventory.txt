@@ -1,7 +1,3 @@
-Schwinn,Axum,548.99,NA,NA
-Trek,Marlin 7,999.99,NA,NA
-Giant,Talon 2,749.99,NA,NA
-Specialized,Sirrus X,899.99,NA,NA
 Cannondale,Trail 5,849.99,NA,NA
 Santa Cruz,Hightower,4299.99,NA,NA
 Trek,FX 2,649.99,NA,NA
