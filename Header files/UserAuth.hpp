@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <fstream>
-
+using namespace std;
 class UserAuth {
 private:
     std::string credentialsFile;
@@ -13,10 +13,14 @@ private:
     void loadCredentials();
     void saveCredentials();
 
+
 public:
     UserAuth(const std::string& filename = "credentials.txt");
     bool registerUser(const std::string& username, const std::string& password);
     bool verifyUser(const std::string& username, const std::string& password);
+    string loginMenu();
+    bool validateCredentials(const std::string& username, const std::string& password);
+    bool isUsernameUnique(const std::string& username);
 };
 
 #endif

@@ -1,0 +1,16 @@
+=== BIKE PURCHASE RECEIPT ===
+
+Customer: Merlin
+Date: Wed Nov 20 11:00:32 2024
+
+BIKE DETAILS:
+Make: Giant
+Model: Defy-3
+Serial Number: 1732129232
+
+PAYMENT DETAILS:
+Subtotal: $1299.99
+Tax (8%): $104.00
+Total: $1403.99
+
+IMPORTANT: Please save this receipt for your records!

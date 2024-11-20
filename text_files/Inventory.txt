@@ -1,8 +1,3 @@
-Trek,Domane SL 5,2999.99,NA,NA
-Giant,Defy-3,1299.99,NA,NA
-Specialized,Rockhopper,799.99,NA,NA
-Cannondale,Synapse,1499.99,NA,NA
-BMX,Freestyle,399.99,NA,NA
 Schwinn,Axum,548.99,NA,NA
 Trek,Marlin 7,999.99,NA,NA
 Giant,Talon 2,749.99,NA,NA
@@ -45,5 +40,3 @@ Trek,Slash 8,4199.99,NA,NA
 Giant,Reign 2,2899.99,NA,NA
 Specialized,Epic EVO,4599.99,NA,NA
 BMX,Kink Whip,459.99,NA,NA
-Marin,Rift Zone 2,2399.99,NA,NA
-Transition,Scout,3299.99,NA,NA
